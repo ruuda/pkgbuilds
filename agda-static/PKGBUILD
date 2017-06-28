@@ -1,0 +1,39 @@
+# Maintainer: Ruud van Asseldonk <dev@veniogames.com>
+pkgname=agda-static
+pkgver=2.5.2
+pkgrel=1
+pkgdesc="A dependently typed programming language / interactive theorem prover"
+arch=('i686' 'x86_64')
+url='http://wiki.portal.chalmers.se/agda/pmwiki.php'
+license=('custom')
+depends=('gmp' 'libffi' 'zlib')
+optdepends=('agda-stdlib: for standard library')
+makedepends=('git' 'stack')
+provides=("${pkgname%-static}")
+conflicts=("${pkgname%-static}")
+source=("git+https://github.com/agda/agda.git#tag=v${pkgver}")
+md5sums=('SKIP')
+
+prepare() {
+  export STACK_YAML="$srcdir/${pkgname%-static}/stack-8.0.1.yaml"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-static}"
+  stack setup
+  stack build
+}
+
+check() {
+	cd "$srcdir/${pkgname%-static}"
+  stack test
+}
+
+package() {
+	cd "$srcdir/${pkgname%-static}"
+  mkdir -p "$pkgdir/usr/bin"
+  mkdir -p "$pkgdir/usr/share/licenses/${pkgname%-static}"
+  cp "$(stack path --local-install-root)/bin/agda" "$pkgdir/usr/bin/"
+  cp "$(stack path --local-install-root)/bin/agda-mode" "$pkgdir/usr/bin/"
+	cp "LICENSE" "$pkgdir/usr/share/licenses/${pkgname%-static}/"
+}

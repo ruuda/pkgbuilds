@@ -1,0 +1,38 @@
+# Maintainer: Ruud van Asseldonk <dev@veniogames.com>
+pkgname=stack-static
+pkgver=1.4.0
+pkgrel=1
+pkgdesc="A cross-platform program for developing Haskell projects"
+arch=('i686' 'x86_64')
+url='https://haskellstack.org'
+license=('BSD3')
+depends=('gmp' 'libffi' 'zlib')
+optdepends=('gnupg: for verification of downloaded binaries')
+makedepends=('git' 'stack')
+provides=("${pkgname%-static}")
+conflicts=("${pkgname%-static}")
+source=("git+https://github.com/commercialhaskell/stack.git#tag=v${pkgver}")
+md5sums=('SKIP')
+
+prepare() {
+  export STACK_YAML="$srcdir/${pkgname%-static}/stack-8.0.yaml"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-static}"
+  stack setup
+  stack build
+}
+
+check() {
+	cd "$srcdir/${pkgname%-static}"
+  stack test
+}
+
+package() {
+	cd "$srcdir/${pkgname%-static}"
+  mkdir -p "$pkgdir/usr/bin"
+  mkdir -p "$pkgdir/usr/share/licenses/${pkgname%-static}"
+  cp "$(stack path --local-install-root)/bin/stack" "$pkgdir/usr/bin/"
+	cp "LICENSE" "$pkgdir/usr/share/licenses/${pkgname%-static}/"
+}
