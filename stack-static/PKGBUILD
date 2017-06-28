@@ -14,12 +14,9 @@ conflicts=("${pkgname%-static}")
 source=("git+https://github.com/commercialhaskell/stack.git#tag=v${pkgver}")
 md5sums=('SKIP')
 
-prepare() {
-  export STACK_YAML="$srcdir/${pkgname%-static}/stack-8.0.yaml"
-}
-
 build() {
   cd "$srcdir/${pkgname%-static}"
+  export STACK_YAML=./stack-8.0.yaml
   stack setup
   stack build
 }
