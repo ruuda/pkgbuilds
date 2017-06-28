@@ -1,10 +1,8 @@
 # makepkg-generated directories
-/agda-static/agda/
-/agda-static/src/
-/pandoc-static/pandoc/
-/pandoc-static/src/
-/stack-static/src/
-/stack-static/stack/
+/*/*/
+
+# Built packages
+/*/*.pkg.tar.xz
 
 # Editor files
 *.swo
