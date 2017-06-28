@@ -19,20 +19,20 @@ prepare() {
 }
 
 build() {
-	cd "$srcdir/${pkgname%-static}"
+  cd "$srcdir/${pkgname%-static}"
   stack setup
   stack build
 }
 
 check() {
-	cd "$srcdir/${pkgname%-static}"
+  cd "$srcdir/${pkgname%-static}"
   stack test
 }
 
 package() {
-	cd "$srcdir/${pkgname%-static}"
+  cd "$srcdir/${pkgname%-static}"
   mkdir -p "$pkgdir/usr/bin"
   mkdir -p "$pkgdir/usr/share/licenses/${pkgname%-static}"
   cp "$(stack path --local-install-root)/bin/stack" "$pkgdir/usr/bin/"
-	cp "LICENSE" "$pkgdir/usr/share/licenses/${pkgname%-static}/"
+  cp "LICENSE" "$pkgdir/usr/share/licenses/${pkgname%-static}/"
 }

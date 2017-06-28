@@ -15,20 +15,20 @@ source=("git+https://github.com/jgm/pandoc.git#tag=${pkgver}")
 md5sums=('SKIP')
 
 build() {
-	cd "$srcdir/${pkgname%-static}"
+  cd "$srcdir/${pkgname%-static}"
   stack setup
   stack build
 }
 
 check() {
-	cd "$srcdir/${pkgname%-static}"
+  cd "$srcdir/${pkgname%-static}"
   stack test
 }
 
 package() {
-	cd "$srcdir/${pkgname%-static}"
+  cd "$srcdir/${pkgname%-static}"
   mkdir -p "$pkgdir/usr/bin"
   mkdir -p "$pkgdir/usr/share/licenses/${pkgname%-static}"
   cp "$(stack path --local-install-root)/bin/pandoc" "$pkgdir/usr/bin/"
-	cp "COPYING.md" "$pkgdir/usr/share/licenses/${pkgname%-static}/"
+  cp "COPYING.md" "$pkgdir/usr/share/licenses/${pkgname%-static}/"
 }
